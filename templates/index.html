@@ -1,20 +1,26 @@
+
 {% extends "base.html" %}
 
 {% block content %}
-    {{ section.content | safe }}
 
-    {% if config.extra.list_pages %}
-    <ul class="posts">
-        {% for page in section.pages %}
-        <li>
-            <a href="{{ page.permalink }}">{{ page.title }}</a>
-            <span class="date">{{ page.date | date(format="%Y-%m-%d") }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+<section class="home-section hero center">
+  <p>{{ section.content | safe }}</p>
+</section>
 
-    {% if paginator %}
-        {% include "partials/pagination.html" %}
-    {% endif %}
-{% endblock %}
+<!-- <hr class="section-divider"> -->
+
+<section class="home-section recent-posts">
+  <h2>📝 Recent Posts</h2>
+  <ul class="recent-posts-list">
+    {% set blog_section = get_section(path="blog/_index.md") %}
+    {% for post in blog_section.pages | slice(end=5) %}
+    <li>
+      <a href="{{ post.permalink }}">{{ post.title }}</a>
+      <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% endblock content %}
+

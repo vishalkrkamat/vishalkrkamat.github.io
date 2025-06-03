@@ -4,6 +4,9 @@ base_url = "https://vishalkrkamat.github.io"
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 
+title = "vishalkrkamat"
+description = "Where I share my coding projects, lessons learned, and thoughts."
+default_language = "en"
 #theme = "anemone"
 
 # Whether to build a search index to be used later on by a JavaScript library
@@ -17,15 +20,21 @@ highlight_code = true
 [extra]
 author = "Speyll"
 favicon = "favicon.ico"
-list_pages = false
+list_pages = true
 twitter_card = true
 enable_search = true
+job_seeking = false
 
 ## Navigation
 header_nav = [
-  { url = "/", name_en = "/home/", name_fr = "/accueil/" },
+  # { url = "/", name_en = "/home/", name_fr = "/accueil/" },
   { url = "/about", name_en = "/about/", name_fr = "/concernant/" },
-  { url = "/journal", name_en = "/journal/", name_fr = "/journal/" },
+  { url = "/projects", name_en = "/projects/", name_fr = "/projects/" },
   { url = "/blog", name_en = "/blog/", name_fr = "/blog/" }
 ]
+
+[extra.linkedin]
+username = "vishalkrkamat"
+
+
 # Put all your custom variables here

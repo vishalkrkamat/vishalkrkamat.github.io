@@ -123,3 +123,62 @@
 .webring {
   margin: .375rem;
 }
+
+.section-divider {
+  margin: 3rem auto;
+  border: 0;
+  height: 1px;
+  background: var(--accent, #ccc);
+  width: 100%;
+  opacity: 0.4;
+}
+
+/* .home-section { */
+/*   padding: 2.5rem 0; */
+/* } */
+
+/* .hero h1 { */
+/*   font-size: 2rem; */
+/*   margin-bottom: 0.5rem; */
+/* } */
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  margin-top: 0;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.recent-posts h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed var(--accent);
+  padding-bottom: 0.5rem;
+}
+
+.recent-posts-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-posts-list li {
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #333;
+}
+
+.recent-posts-list a {
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.recent-posts-list .date {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-top: 0.25rem;
+}

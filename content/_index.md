@@ -1,5 +1,5 @@
 +++
 title = "Home"
-paginate_by = 5
+paginate_by = 0
 #sort_by = "date"
 +++

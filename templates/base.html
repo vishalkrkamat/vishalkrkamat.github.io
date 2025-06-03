@@ -25,7 +25,17 @@
         {% elif section %}
         {% set current_lang = section.lang %}
         {% endif %}
-        <nav id="nav-bar">
+
+<header class="site-header">
+    <div class="header-inner">
+        <div class="site-title-desc">
+            <a id="a-title" href="/">
+                <h1 class="site-title">🧑‍💻 {{ config.title }}</h1>
+            </a>
+            <h2 class="site-description">{{ config.description }}</h2>
+        </div>
+
+        <nav id="nav-bar" class="site-nav">
             {% for nav_item in config.extra.header_nav %}
             <a href="{{ nav_item.url }}" class="{% if current_url is defined and nav_item.url == current_url %}active{% endif %}">
                 {% set language_key = 'name_' ~ current_lang %}
@@ -43,7 +53,19 @@
                 </svg>
             </div>
         </nav>
+    </div>
 
+    {% if config.extra.job_seeking %}
+    <div class="job-status">
+        <span class="job-status-dot">●</span>
+        <span class="job-status-text">
+            Open to new opportunities -
+            <a href="{{ config.extra.linkedin.profile_url | default(value='https://www.linkedin.com/in/' ~ config.extra.linkedin.username) }}" target="_blank">Let's connect on LinkedIn</a>
+            or <a href="vishalkrkamat7@gmail.com">contact me</a>
+        </span>
+    </div>
+    {% endif %}
+</header>
         <main>
             {% block content %}{% endblock %}
         </main>
