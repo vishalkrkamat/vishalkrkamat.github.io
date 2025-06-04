@@ -5,7 +5,7 @@ base_url = "https://vishalkrkamat.github.io"
 compile_sass = true
 
 title = "vishalkrkamat"
-description = "Where I share my coding projects, lessons learned, and thoughts."
+description = "Projects, learnings, and thoughts."
 default_language = "en"
 #theme = "anemone"
 
