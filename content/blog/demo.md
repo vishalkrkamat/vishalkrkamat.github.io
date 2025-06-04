@@ -3,6 +3,11 @@ title = "Building My Personal Website with Zola"
 date = 2025-06-02
 description = "A walkthrough of how I built a minimal, fast, no-BS dev site using Zola."
 draft = false
+
+[extra]
+toc = true
+
+[taxonomies] 
 tags = ["zola", "static site", "personal branding"]
 +++
 
