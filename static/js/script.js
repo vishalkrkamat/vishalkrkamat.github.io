@@ -1,9 +1,9 @@
 class ThemeManager {
     constructor() {
-        this.toggle = document.getElementById('theme-toggle');
+        this.toggle = document.getElementById("theme-toggle");
         if (!this.toggle) return;
 
-        this.icon = document.getElementById('theme-icon');
+        this.icon = document.getElementById("theme-icon");
         const { iconBase, iconDark, iconLight, soundSrc } = this.toggle.dataset;
         this.iconBase = iconBase;
         this.iconDark = iconDark;
@@ -18,26 +18,26 @@ class ThemeManager {
 
     init() {
         this.setInitialTheme();
-        this.toggle.addEventListener('click', () => this.toggleTheme());
+        this.toggle.addEventListener("click", () => this.toggleTheme());
     }
 
     setInitialTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const initialTheme = savedTheme || (systemDark ? 'dark' : 'light');
+        const savedTheme = localStorage.getItem("theme");
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initialTheme = savedTheme || (systemDark ? "dark" : "light");
 
-        document.documentElement.setAttribute('data-theme', initialTheme);
-        this.updateIcon(initialTheme === 'dark');
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        this.updateIcon(initialTheme === "dark");
     }
 
     toggleTheme() {
-        document.body.classList.add('theme-transition');
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const newTheme = isDark ? 'light' : 'dark';
+        document.body.classList.add("theme-transition");
+        const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        const newTheme = isDark ? "light" : "dark";
 
-        document.documentElement.setAttribute('data-theme', newTheme);
+        document.documentElement.setAttribute("data-theme", newTheme);
         this.updateIcon(!isDark);
-        localStorage.setItem('theme', newTheme);
+        localStorage.setItem("theme", newTheme);
 
         // Lazy load sound only when needed
         if (!this.sound && this.soundSrc) {
@@ -51,23 +51,24 @@ class ThemeManager {
         // Use requestAnimationFrame for better performance on transition
         requestAnimationFrame(() => {
             setTimeout(() => {
-                document.body.classList.remove('theme-transition');
+                document.body.classList.remove("theme-transition");
             }, 300);
         });
     }
 
     updateIcon(isDark) {
         if (this.icon) {
-            this.icon.setAttribute('href',
-                `${this.iconBase}${isDark ? this.iconDark : this.iconLight}`);
+            this.icon.setAttribute(
+                "href",
+                `${this.iconBase}${isDark ? this.iconDark : this.iconLight}`,
+            );
         }
     }
 }
 
-
 // Initialize when content is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new ThemeManager());
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => new ThemeManager());
 } else {
     new ThemeManager();
 }

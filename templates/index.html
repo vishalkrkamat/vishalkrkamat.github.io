@@ -1,34 +1,28 @@
 {% extends "base.html" %}
-
 {% block content %}
-
-<section class="home-section hero center">
-  <p>{{ section.content | safe }}</p>
-</section>
-
-<section class="home-section recent-posts">
-  <h2>📝 Recent Posts</h2>
-  <ul class="recent-posts-list">
-    {% set blog_section = get_section(path="blog/_index.md") %}
-    {% for post in blog_section.pages | slice(end=5) %}
-    <li>
-<div>
-      <a href="{{ post.permalink }}">{{ post.title }}</a>
-
-      {% if post.taxonomies and post.taxonomies.tags %}
-        <div class="post-tags">
-          {% for tag in post.taxonomies.tags %}
-            <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">#{{ tag }}</a>
-            {% if not loop.last %}<span class="tag-separator">·</span>{% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}    
-
-</div>
-      <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
-</li>
-    {% endfor %}
-  </ul>
-</section>
-
+    <section class="home-section hero center">
+        <p>{{ section.content | safe }}</p>
+    </section>
+    <section class="home-section recent-posts">
+        <h2>📝 Recent Posts</h2>
+        <ul class="recent-posts-list">
+            {% set blog_section = get_section(path="blog/_index.md") %}
+            {% for post in blog_section.pages | slice(end=5) %}
+                <li>
+                    <div>
+                        <a href="{{ post.permalink }}">{{ post.title }}</a>
+                        {% if post.taxonomies and post.taxonomies.tags %}
+                            <div class="post-tags">
+                                {% for tag in post.taxonomies.tags %}
+                                    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">#{{ tag }}</a>
+                                    {% if not loop.last %}<span class="tag-separator">·</span>{% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock content %}

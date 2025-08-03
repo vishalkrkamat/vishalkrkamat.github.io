@@ -1,13 +1,18 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h1>All Tags</h1>
-  <ul>
-    {% for tag in terms %}
-      <li>
-        <a href="{{ tag.permalink }}">#{{ tag.name | escape }}</a>
-        ({{ tag.pages | length }} {% if tag.pages | length == 1 %}post{% else %}posts{% endif %})
-      </li>
-    {% endfor %}
-  </ul>
+    <h1>All Tags</h1>
+    <ul>
+        {% for tag in terms %}
+            <li>
+                <a href="{{ tag.permalink }}">#{{ tag.name | escape }}</a>
+                ({{ tag.pages | length }}
+                {% if tag.pages | length == 1 %}
+                    post
+                {% else %}
+                    posts
+                {% endif %}
+                )
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
