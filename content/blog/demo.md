@@ -42,3 +42,4 @@ content/
 ├── blog/
 │   ├── _index.md
 │   └── demo-post.md  ← you are here!
+```

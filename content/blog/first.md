@@ -9,4 +9,5 @@ tags = ["zola", "static site", "personal branding"]
 
 +++
 
-This is my first post on my personal website built with Zola. I'm sharing what I learned while setting up the layout, theme, and content structure.
+This is my first post on my personal website built with Zola. I'm sharing what I learned while setting up the layout, theme, and content
+structure.

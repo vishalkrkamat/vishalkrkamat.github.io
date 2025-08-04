@@ -109,7 +109,7 @@
     padding: 0.25rem 0.6rem;
     border-radius: 0.25rem;
     text-decoration: none;
-    transition: all 0.2s ease;
+    /* transition: all 0.2s ease; */
     border: 1px solid rgba(var(--accent-rgb), 0.15);
     
     &:hover {

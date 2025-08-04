@@ -181,6 +181,7 @@
 .title_recent_posts > a:hover {
   background-color: #7592a0;
   color: #131719;
+  transition: color 0.2s ease;
 }
 
 .recent-posts-list .date {
