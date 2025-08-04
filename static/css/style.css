@@ -178,6 +178,11 @@
   color: var(--text);
 }
 
+.title_recent_posts > a:hover {
+  background-color: #7592a0;
+  color: #131719;
+}
+
 .recent-posts-list .date {
   display: block;
   font-size: 0.85rem;

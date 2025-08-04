@@ -9,7 +9,7 @@
             {% set blog_section = get_section(path="blog/_index.md") %}
             {% for post in blog_section.pages | slice(end=5) %}
                 <li>
-                    <div>
+                    <div class= "title_recent_posts">
                         <a href="{{ post.permalink }}">{{ post.title }}</a>
                         {% if post.taxonomies and post.taxonomies.tags %}
                             <div class="post-tags">

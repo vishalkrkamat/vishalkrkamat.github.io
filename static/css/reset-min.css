@@ -1,0 +1,121 @@
+/* Box Sizing */
+*, ::after, ::before {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+/* Reset Margin */
+* {
+  margin: 0;
+}
+
+/* Text Adjustment */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove Margin for Common Elements */
+blockquote,
+body,
+dd,
+dl,
+figure,
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-block-end: 0;
+}
+
+/* Remove List Style */
+ol,
+ol[role="list"],
+ul,
+ul[role="list"] {
+  list-style: none;
+}
+
+/* Body Defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Form and Heading Line Height */
+button,
+h1,
+h2,
+h3,
+h4,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* Heading Wrapping */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/* Overflow Wrap for Text Elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Anchor Styling */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Media Elements */
+canvas,
+img,
+picture,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+/* Form Elements Appearance and Font */
+button,
+input,
+progress,
+select,
+textarea {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font: inherit;
+}
+
+/* Default Textarea Height */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Scroll Target Offset */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Isolation for Root Containers */
+#root,
+#__next {
+  isolation: isolate;
+}
