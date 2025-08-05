@@ -14,12 +14,8 @@
             {% if page.title %}| {{ page.title }}{% endif %}
         </title>
         <link rel="preload" href="{{ get_url(path='css/style.css') }}" as="style">
-        <link rel="stylesheet"
-              href="https://raw.githack.com/Speyll/suCSS/main/reset-min.css"
-              crossorigin="anonymous">
-        <link rel="stylesheet"
-              href="https://raw.githack.com/Speyll/suCSS/main/suCSS-min.css"
-              crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ get_url(path='css/reset.css') }}">
+        <link rel="stylesheet" href="{{ get_url(path='css/theme.css') }}">
         <link rel="stylesheet" href="{{ get_url(path='css/style.css') }}">
         <link rel="stylesheet" href="{{ get_url(path='css/custom.css') }}">
         <link rel="me" href="https://fosstodon.org/@vishalkrkamat">
