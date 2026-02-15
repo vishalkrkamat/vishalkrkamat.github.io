@@ -16,12 +16,11 @@ and kernel.
 
 - **OS:** [CachyOS (Arch-based)](https://cachyos.org/)
 - **WM/Compositor:** [Hyprland](https://hyprland.org/)
-- **Keyboard Layout:** [Colemak-DH](https://colemakmods.github.io/mod-dh/)
 - **Editor:** [Nvim](https://nvim.io)
 - [DotFiles ↗](https://github.com/vishalkrkamat/DotFiles)
 
 ### Contact
 
 - **Email:** [vishalkrkamat7@gmail.com](mailto:vishalkrkamat7@gmail.com)
-- **Social:** [X](https://x.com/vishalkrkamat) · [Bluesky](https://bsky.app/profile/vishalkrkamat.bsky.social) ·
-  [Mastodon](https://mastodon.social/@vishalkrkamat)
+- **Social:** [X](https://x.com/vishalkrkamat) · [Bluesky](https://bsky.app/profile/vishalkrkamat.github.io) ·
+  [Mastodon](https://fosstodon.org/@vishalkrkamat)
