@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        
+            <link rel="alternate"
+                  type="application/rss+xml"
+                  title="RSS"
+                  href="https://vishalkrkamat.github.io/rss.xml">
+        
+        <title>vishalkrkamat
+            | A Minimal Wayland Client in C: Creating a Window from Scratch
+        </title>
+        <link rel="preload" href="https://vishalkrkamat.github.io/css/style.css" as="style">
+        <link rel="stylesheet" href="https://vishalkrkamat.github.io/css/reset.css">
+        <link rel="stylesheet" href="https://vishalkrkamat.github.io/css/theme.css">
+        <link rel="stylesheet" href="https://vishalkrkamat.github.io/css/style.css">
+        <link rel="stylesheet" href="https://vishalkrkamat.github.io/css/custom.css">
+        <link rel="me" href="https://fosstodon.org/@vishalkrkamat">
+        <link rel="me" href="https://mastodon.social/@vishalkrkamat">
+        <!-- Add favicon with appropriate sizes -->
+        <link rel="icon"
+              href="https:&#x2F;&#x2F;vishalkrkamat.github.io/favicon.ico">
+    </head>
+    <body>
+        
+        
+            
+        
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="site-title-desc">
+                    <a id="a-title" href="/">
+                        <h1 class="site-title">🧑‍💻 vishalkrkamat</h1>
+                    </a>
+                    <h2 class="site-description">Projects, learnings, and thoughts.</h2>
+                </div>
+                <nav id="nav-bar" class="site-nav">
+                    
+                        <a href="&#x2F;about"
+                           class="">
+                            
+                            &#x2F;about&#x2F;
+                        </a>
+                    
+                        <a href="&#x2F;projects"
+                           class="">
+                            
+                            &#x2F;projects&#x2F;
+                        </a>
+                    
+                        <a href="&#x2F;blog"
+                           class="">
+                            
+                            &#x2F;blog&#x2F;
+                        </a>
+                    
+                    <div class="theme-toggle"
+                         id="theme-toggle"
+                         role="button"
+                         tabindex="0"
+                         aria-label="Toggle theme"
+                         data-icon-base="https://vishalkrkamat.github.io/icons.svg"
+                         data-icon-dark="#darkMode"
+                         data-icon-light="#lightMode"
+                         data-sound-src="https://vishalkrkamat.github.io/click.ogg">
+                        <svg class="icon">
+                            <use id="theme-icon"></use>
+                        </svg>
+                    </div>
+                </nav>
+            </div>
+            
+        </header>
+        <main>
+            
+    <article class="post">
+        <header class="post-header">
+            
+                <time datetime="2026-02-27">Published on:
+                    <span class="accent-data">2026-02-27</span>
+                </time>
+            
+            
+            <h1>A Minimal Wayland Client in C: Creating a Window from Scratch</h1>
+        </header>
+        
+            <div class="toc-container">
+                <h2>Table of content</h2>
+                <ul>
+                    
+                        <li>
+                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#what-is-wayland">What is wayland?</a>
+                            
+                        </li>
+                    
+                        <li>
+                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#what-i-am-actually-building">What I am actually building</a>
+                            
+                        </li>
+                    
+                        <li>
+                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#connecting-to-the-compositor-and-binding-to-global-objects">Connecting to the compositor and binding to global objects</a>
+                            
+                        </li>
+                    
+                        <li>
+                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#setting-up-xdg-window">Setting Up Xdg Window</a>
+                            
+                        </li>
+                    
+                        <li>
+                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#lets-create-pixel-and-put-that-into-wl-surface">Lets create pixel and put that into wl surface</a>
+                            
+                                <ul>
+                                    
+                                        <li>
+                                            <a href="https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/#books-wayland-references">📚 Wayland References</a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                </ul>
+            </div>
+        
+        <div class="post-content"><h2 id="what-is-wayland">What is wayland?</h2>
+<p>Wayland is a modern display server protocol used on Linux systems. It defines how graphical applications (clients) communicate with a
+display server called a compositor. Applications render their own graphics and send the finished images (buffers) to the compositor. The
+compositor then combines these images and displays the final result on the screen, while also handling input from the keyboard and
+mouse.<a href="https://wayland.freedesktop.org/">For More Info...</a></p>
+<h2 id="what-i-am-actually-building">What I am actually building</h2>
+<p>So I will be building a very simple wayland client from scratch and make a window appear thats it , nothing fancy or advance.<br />
+A rough overview of what I will do</p>
+<ul>
+<li>connect to the compositor</li>
+<li>discover global objects via the registry</li>
+<li>create a surface using xdg-shell</li>
+<li>allocate a shared memory buffer</li>
+<li>draw a solid white window</li>
+</ul>
+<p>So lets dive in..</p>
+<h2 id="connecting-to-the-compositor-and-binding-to-global-objects">Connecting to the compositor and binding to global objects</h2>
+<p>Wayland is a async by nature , so to know the capabilities of a compositor on which i will be working on , we need to ask the compositor
+itself to list all its global objects.<br />
+This way a dev can know what capabilities a compositor have and what it doesn't. All this is done through request and events concept from
+client and compositor side back and forth.
+<a href="https://wayland.freedesktop.org/docs/html/ch04.html#sect-Protocol-Basic-Principles">For More detail precise Info read this</a></p>
+<p>Code below to list out all global objects of the compositor</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">
+#include &quot;..&#x2F;protocol&#x2F;xdg-shell-client-protocol.h&quot;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;wayland-client.h&gt;
+
+struct app_state {
+
+  &#x2F;&#x2F; wl global objects
+  struct wl_shm *shm;
+  struct xdg_wm_base *xdg_wm_base;
+  struct wl_compositor *comp;
+
+  struct xdg_surface *xdg_surface;
+  struct xdg_toplevel *xdg_toplevel;
+
+  int32_t width;
+  int32_t height;
+
+  struct wl_surface *surface;
+};
+
+&#x2F;&#x2F; Initialize the struct Instance
+struct app_state app = {0};
+
+&#x2F;&#x2F;===============Setup Wayland Global Object Listerner===================&#x2F;&#x2F;
+
+void regis_list(void *data, struct wl_registry *wl_registry, uint32_t name,
+                const char *interface, uint32_t version) {
+
+  struct app_state *app = data;
+
+  if (strcmp(interface, &quot;wl_compositor&quot;) == 0) {
+    app-&gt;comp =
+        wl_registry_bind(wl_registry, name, &amp;wl_compositor_interface, 6);
+  }
+
+  if (strcmp(interface, &quot;wl_shm&quot;) == 0) {
+    app-&gt;shm = wl_registry_bind(wl_registry, name, &amp;wl_shm_interface, 1);
+  }
+
+  if (strcmp(interface, &quot;xdg_wm_base&quot;) == 0) {
+    app-&gt;xdg_wm_base =
+        wl_registry_bind(wl_registry, name, &amp;xdg_wm_base_interface, 1);
+  }
+
+  printf(&quot;interface: &#x27;%s&#x27;, version: %u, name: %u\n&quot;, interface, version, name);
+}
+
+void regis_remove(void *data, struct wl_registry *wl_registry, uint32_t name) {
+  (void)data;
+  (void)(wl_registry);
+  (void)name;
+}
+
+struct wl_registry_listener wl_registry_listener = {
+    .global = regis_list,
+    .global_remove = regis_remove,
+};
+
+int main() {
+
+  struct wl_display *display = wl_display_connect(NULL);
+
+  if (!display) {
+    fprintf(stderr, &quot;Failed to connect to Wayland display.\n&quot;);
+    return 1;
+  }
+
+  struct wl_registry *regis = wl_display_get_registry(display);
+
+  wl_registry_add_listener(regis, &amp;wl_registry_listener, &amp;app);
+
+  wl_display_roundtrip(display);
+
+  if (!app.comp || !app.xdg_wm_base || !app.shm) {
+    fprintf(stderr, &quot;missing globals\n&quot;);
+    abort();
+  }
+
+  fprintf(stderr, &quot;Connection established!\n&quot;);
+
+  app.surface = wl_compositor_create_surface(app.comp);
+
+}
+</code></pre>
+<p>For creating a simple window in wayland we need three objects</p>
+<ul>
+<li>wl_compositor (for creating <strong>wl_surface</strong>)</li>
+<li>xdg_wm_base (for window management)</li>
+<li>wl_shm (memory related operation)</li>
+</ul>
+<p>The above code setup up the event handler callbacks in my case <strong>regis_list</strong> and <strong>regis_remove</strong>, they are grouped inside a single
+listener struct.</p>
+<p><code>wl_registry_add_listener(regis, &amp;wl_registry_listener, &amp;app);</code> this function is where things add up and start making sense. So what happens
+is this , whenever compositor events occur, Wayland dispatches them asynchronously and invoke these functions. <strong>So Inside the listener
+struct its the compositor which will call this functions which is listed not the clients.</strong></p>
+<p>In the above add listener functions we pass wl registry struct instance which we got from calling <strong>wl_display_get_registry</strong> and second we
+pass the struct user data for accessing our data throughout the callback functions , this way we don't have to use globals storing app
+state.</p>
+<h2 id="setting-up-xdg-window">Setting Up Xdg Window</h2>
+<p>Now lets move on to the next setup setting up the Xdg Window.</p>
+<p>As we have xdg_wm_base interface which is exposed as global clients,this interface allows clients to turn wl surface into windows in a
+desktop environment. It defines the basic functionality needed for clients and the compositor to create windows that can be dragged,
+resized, maximized, etc, as well as creating transient windows such as popup menus.</p>
+<p>Below is the code to setup xdg-shell protocol callbacks:</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">&#x2F;&#x2F; xdg-shell protocol callbacks:
+&#x2F;&#x2F; - respond to xdg_wm_base ping
+&#x2F;&#x2F; - acknowledge xdg_surface configure events
+&#x2F;&#x2F; - handle xdg_toplevel configure&#x2F;close events
+
+&#x2F;&#x2F; Xdg Base
+void xdg_wm_base_ping(void *data, struct xdg_wm_base *xdg_wm_base,
+                      uint32_t serial) {
+  xdg_wm_base_pong(xdg_wm_base, serial);
+};
+
+struct xdg_wm_base_listener wm_base_listener = {
+    .ping = xdg_wm_base_ping,
+};
+
+&#x2F;&#x2F; Xdg Surface
+void xdg_surface_handle_configure(void *data, struct xdg_surface *xdg_surface,
+                                  uint32_t serial) {
+  xdg_surface_ack_configure(xdg_surface, serial);
+}
+
+struct xdg_surface_listener xdg_surface_listener = {
+    .configure = xdg_surface_handle_configure,
+};
+
+&#x2F;&#x2F; Xdg Toplevel
+void xdg_toplevel_configure(void *data, struct xdg_toplevel *xdg_toplevel,
+                            int32_t width, int32_t height,
+                            struct wl_array *states) {}
+
+static void xdg_toplevel_handle_close(void *data,
+                                      struct xdg_toplevel *xdg_toplevel) {}
+
+struct xdg_toplevel_listener xdg_toplevel_listener = {
+    .configure = xdg_toplevel_configure,
+    .close = xdg_toplevel_handle_close,
+};
+
+</code></pre>
+<p>Now I have setup the callback functions and struct listeners of xdg shell events for making a simple window.</p>
+<p>Now lets create xdg surface and toplevel in main and also add listeners for them.</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">    app.xdg_surface =
+      xdg_wm_base_get_xdg_surface(app.xdg_wm_base, app.surface);
+
+    app.xdg_toplevel = xdg_surface_get_toplevel(app.xdg_surface);
+
+    &#x2F;* Initial commit (required by protocol) *&#x2F;
+    wl_surface_commit(surface);
+
+
+  xdg_surface_add_listener(app.xdg_surface, &amp;xdg_surface_listener, &amp;app);
+
+  xdg_toplevel_add_listener(app.xdg_toplevel, &amp;xdg_toplevel_listener, &amp;app);
+
+  xdg_wm_base_add_listener(app.xdg_wm_base, &amp;xdg_wm_base_listener, &amp;app);
+</code></pre>
+<h1 id="lets-create-pixel-and-put-that-into-wl-surface">Lets create pixel and put that into wl surface</h1>
+<p>I have almost setup most boilerplate code for making display a simple window in c , now lets add pixel in wl surface so we can actually see
+the display.</p>
+<p>Overall steps what will happen</p>
+<ul>
+<li>Allocate and fill a file-backed framebuffer in shared memory</li>
+<li>Register that memory with the compositor using wl_shm</li>
+<li>Create wl buffer , attach it to the surface</li>
+<li>Finally commit all the changes</li>
+</ul>
+<p>Below is is the code</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">
+
+  struct app_state *state = data;
+  &#x2F;&#x2F; Manually setting
+  &#x2F;&#x2F; int width = 800, height = 800;
+  &#x2F;&#x2F;
+  int stride = state-&gt;width * 4;
+  int size = stride * state-&gt;height;
+
+  int fd = memfd_create(&quot;buf&quot;, 0);
+  ftruncate(fd, size);
+
+  uint32_t *pixels =
+      mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+  &#x2F;&#x2F;for (int i = 0; i &lt; state-&gt;width * state-&gt;height; i++)
+   &#x2F;&#x2F; pixels[i] = 0xff2020ff;
+
+    memset(pixels, 0xff, size);
+
+  struct wl_shm_pool *pool = wl_shm_create_pool(app.shm, fd, size);
+  struct wl_buffer *buffer = wl_shm_pool_create_buffer(
+      pool, 0, app.width, app.height, stride, WL_SHM_FORMAT_ARGB8888);
+
+  wl_surface_attach(state-&gt;surface, buffer, 0, 0);
+  wl_surface_commit(state-&gt;surface);
+
+
+</code></pre>
+<p>The above mentioned code can be put inside xdg surface callback functin it works, also it can be put inside the while
+(wl_display_dispatch(display) != -1) loop. This loop is important.</p>
+<p>For window height and width to let compositor decide it xdg surface toplevel decides it.</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">
+&#x2F;&#x2F; Xdg Toplevel
+void xdg_toplevel_configure(void *data, struct xdg_toplevel *xdg_toplevel,
+                            int32_t width, int32_t height,
+                            struct wl_array *states) {
+
+  &#x2F;&#x2F; if we dont manually decide the width and height let it decide we do it in
+  &#x2F;&#x2F; here in xdg toplevel callback function
+
+  struct app_state *state = data;
+  app.width = width;
+  app.height = height;
+}
+
+</code></pre>
+<p><strong>wl_display_roundtrip</strong>: blocks until the compositor has processed previously sent requests and replied. It is commonly used after binding
+globals to ensure required interfaces are available before continuing.</p>
+<p>Here is the full code which is inside the main function.</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">int main() {
+
+  struct wl_display *display = wl_display_connect(NULL);
+
+  if (!display) {
+    fprintf(stderr, &quot;Failed to connect to Wayland display.\n&quot;);
+    return 1;
+  }
+
+  struct wl_registry *regis = wl_display_get_registry(display);
+
+  wl_registry_add_listener(regis, &amp;wl_registry_listener, &amp;app);
+
+  wl_display_roundtrip(display);
+
+  if (!app.comp || !app.xdg_wm_base || !app.shm) {
+    fprintf(stderr, &quot;missing globals\n&quot;);
+    abort();
+  }
+
+  fprintf(stderr, &quot;Connection established!\n&quot;);
+
+  app.surface = wl_compositor_create_surface(app.comp);
+
+  app.xdg_surface = xdg_wm_base_get_xdg_surface(app.xdg_wm_base, app.surface);
+
+  app.xdg_toplevel = xdg_surface_get_toplevel(app.xdg_surface);
+
+  wl_surface_commit(app.surface); &#x2F;&#x2F;This should be done once xdg surface has be assigned to wl surface , important step. For
+                                  &#x2F;&#x2F; For more info read the protocol doc
+
+  xdg_surface_add_listener(app.xdg_surface, &amp;xdg_surface_listener, &amp;app);
+
+  xdg_toplevel_add_listener(app.xdg_toplevel, &amp;xdg_toplevel_listener, &amp;app);
+
+  xdg_wm_base_add_listener(app.xdg_wm_base, &amp;xdg_wm_base_listener, &amp;app);
+  while (wl_display_dispatch(display) != -1) {
+  }
+}
+</code></pre>
+<p><strong>wl_surface_commit(app.surface)</strong> The initial commit without a buffer is required to notify the compositor that the role (xdg_surface) has
+been assigned. Only after this will the compositor send the first configure event.</p>
+<p><strong>Important</strong>: Since xdg shell protocol is not part of core wayland protocol , so we have to use the wayland scanner to generate .c and .h
+code to use this protocol. Obviously you can chatgpt it how to do so , no point in mentioning the steps here.</p>
+<p><strong>NOTE</strong>: There are lots lots of issue with this code also i have ommited out a lots of details like how lifecycle works in wayland and
+destroying the protocol objects once being used all those things but i have done it in my project wlok which you can checkout later. Also
+wayland compositor is implemented differently in different environment depends on the the compositor itself how it implemented the protocol
+I am running it on hyprland.</p>
+<p>I will also provide the full code (repo) link and also my repo for a wayland locker which i am creating during which i came across wayland
+and decided to write this blog.</p>
+<p>Below is the demonstration.</p>
+<video width="640" height="360" controls>
+  <source src=" https://res.cloudinary.com/dxistrivf/video/upload/v1772088408/wayland_compressed_z2xs8p.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<p>To change the window color to other you can uncomment this link i mentioned above and comment the line below.</p>
+<pre data-lang="c" class="language-c "><code class="language-c" data-lang="c">  for (int i = 0; i &lt; state-&gt;width * state-&gt;height; i++)
+   pixels[i] = 0xff2020ff;
+
+  &#x2F;&#x2F;  memset(pixels, 0xff, size);
+
+</code></pre>
+<p>There are lots of details i didnt mentioned about how protocols work , all those i will put the reference to site below.</p>
+<ul>
+<li><a href="https://codeberg.org/vishalkrkamat/simple_wayland_client_from_scratch">My Repo for all the code above</a></li>
+<li><a href="https://github.com/vishalkrkamat/wlok">Wlok repo</a>[Still in making]</li>
+</ul>
+<h2 id="books-wayland-references">📚 Wayland References</h2>
+<p>Here are some useful resources for learning and exploring Wayland:</p>
+<ul>
+<li><a href="https://wayland.app/protocols/">Wayland Protocols Documentation</a></li>
+<li><a href="https://bugaevc.gitbooks.io/writing-wayland-clients/content/">Writing Wayland Clients (by bugaevc)</a></li>
+<li><a href="https://wayland.freedesktop.org/docs/html/index.html">Official Wayland Documentation</a></li>
+<li><a href="https://wayland-book.com/introduction.html">The Wayland Book – Introduction</a></li>
+<li><a href="https://github.com/nots1dd/mywayland?tab=readme-ov-file">nots1dd learning about wayland</a></li>
+</ul>
+</div>
+        
+            <footer class="post-tags">
+                <a href="/tags/linux" class="tag">#linux</a><a href="/tags/wayland" class="tag">#wayland</a>
+            </footer>
+        
+    </article>
+
+        </main>
+        <footer>
+            <hr />
+<div id="footer-container" style="text-align: center; font-size: 0.9em; color: #aaa">
+    <p>
+        © 2026 Vishal Kr Kamat · Built with Zola &
+        <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/Speyll/anemone"
+            style="color: #8ecae6"
+        >
+            anemone theme
+        </a>
+    </p>
+</div>
+
+        </footer>
+        <!-- Move JS to end of body and add defer -->
+        <script src="https://vishalkrkamat.github.io/js/script.js" defer></script>
+    </body>
+</html>

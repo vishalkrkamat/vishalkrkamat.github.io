@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    
+        <url>
+            <loc>https://vishalkrkamat.github.io/about/</loc>
+            
+        </url>
+    
+    
+    
+        
+        
+    
+        
+        
+    
+        
+        
+            <url>
+                <loc>https://vishalkrkamat.github.io/blog/simple-wayland-client-in-c/</loc>
+                <lastmod>2026-02-27</lastmod>
+            </url>
+        
+            <url>
+                <loc>https://vishalkrkamat.github.io/blog/2nd/</loc>
+                <lastmod>2025-08-20</lastmod>
+            </url>
+        
+            <url>
+                <loc>https://vishalkrkamat.github.io/blog/first/</loc>
+                <lastmod>2025-08-14</lastmod>
+            </url>
+        
+    
+</urlset>

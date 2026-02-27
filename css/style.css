@@ -1,0 +1,194 @@
+:root {
+    --icon-size: 1.3rem;
+    --icon-color: var(--text);
+}
+
+#nav-bar {
+    padding: 0.625rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accent-data {
+    color: var(--accent);
+}
+
+.theme-transition {
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.tags-data {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-content: flex-end;
+}
+
+.title-list li {
+    margin-bottom: 0.375rem;
+}
+
+/* icons settings */
+.icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    display: inline-block;
+    vertical-align: middle;
+    color: var(--icon-color);
+    fill: currentColor;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.icon:hover {
+    --icon-color: var(--accent);
+}
+
+/* Theme toggle specific styles */
+.theme-toggle {
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    display: inline-flex;
+}
+
+.theme-toggle:hover .icon {
+    --icon-color: var(--accent);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* footnotes */
+.footnote-definition {
+    margin: 0 0 0 0.125rem;
+}
+
+.footnote-definition-label {
+    color: var(--accent);
+}
+
+.footnote-definition p {
+    display: inline;
+    margin: 0.625rem 0 0 0.625rem;
+}
+
+/* general classes */
+/* Cleaned no-style class */
+.no-style {
+    all: unset;
+    background: none !important;
+    border: none !important;
+}
+
+.no-style:hover {
+    background: transparent;
+    color: inherit;
+}
+
+/* Modern float replacement */
+.float-right {
+    margin-inline-start: auto;
+}
+
+.float-left {
+    margin-inline-end: auto;
+}
+
+.center {
+    text-align: center;
+}
+
+.center img {
+    display: block;
+    margin: 1rem auto;
+}
+
+/* shortcodes css */
+.webring {
+    margin: 0.375rem;
+}
+
+.section-divider {
+    margin: 3rem auto;
+    border: 0;
+    height: 1px;
+    background: var(--accent, #ccc);
+    width: 100%;
+    opacity: 0.4;
+}
+
+/* .home-section { */
+/*   padding: 2.5rem 0; */
+/* } */
+
+/* .hero h1 { */
+/*   font-size: 2rem; */
+/*   margin-bottom: 0.5rem; */
+/* } */
+
+.hero h1 {
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    margin-top: 0;
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+.recent-posts h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px dashed var(--accent);
+    padding-bottom: 0.5rem;
+}
+
+.recent-posts-list {
+    list-style: none;
+    padding: 0;
+}
+
+.recent-posts-list li {
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+}
+
+.recent-posts-list a {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.title_recent_posts > a:hover {
+    background-color: #7592a0;
+    color: #131719;
+    transition: color 0.2s ease;
+}
+
+.recent-posts-list .date {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-top: 0.25rem;
+}
