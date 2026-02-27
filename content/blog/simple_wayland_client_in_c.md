@@ -13,9 +13,10 @@ tags = ["linux","wayland"]
 
 ## What is wayland?
 
-Wayland is a modern display server protocol on Unix-like operating systems, particularly Linux. It defines how graphical applications
-(clients) communicate with a display server—known as a compositor—to render graphics and handle user input like keyboard and mouse events,
-etc. [For More Info...](https://wayland.freedesktop.org/)
+Wayland is a modern display server protocol used on Linux systems. It defines how graphical applications (clients) communicate with a
+display server called a compositor. Applications render their own graphics and send the finished images (buffers) to the compositor. The
+compositor then combines these images and displays the final result on the screen, while also handling input from the keyboard and
+mouse.[For More Info...](https://wayland.freedesktop.org/)
 
 ## What I am actually building
 
@@ -26,7 +27,7 @@ A rough overview of what I will do
 - discover global objects via the registry
 - create a surface using xdg-shell
 - allocate a shared memory buffer
-- draw a solid red window
+- draw a solid white window
 
 So lets dive in..
 
