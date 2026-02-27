@@ -16,7 +16,7 @@ and kernel.
 
 - **OS:** [CachyOS (Arch-based)](https://cachyos.org/)
 - **WM/Compositor:** [Hyprland](https://hyprland.org/)
-- **Editor:** [Nvim](https://nvim.io)
+- **Editor:** [Nvim](https://neovim.io)
 - [DotFiles ↗](https://github.com/vishalkrkamat/DotFiles)
 
 ### Contact
